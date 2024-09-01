@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.dark {
+  --colorS4: #070F2B; 
+  --colorS3: #1B1A55; 
+  --colorS2: #535C91; 
+  --colorS1: #9290C3; 
+
+  --bodyText: #FDF7E4;
+}
+
+.light {
+
+  --colorS4: #FDF7E4; 
+  --colorS3: #FAEED1; 
+  --colorS2: #DED0B6; 
+  --colorS1: #BBAB8C; 
+
+  --bodyText: #070F2B;
+}
