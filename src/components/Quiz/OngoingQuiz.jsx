@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import OngoingQuizModal from './OngoingQuizModal';
 
-const OngoingQuiz = ({ setStageOfQuiz, setFinalResult, questions}) => {
-  console.log("Da li fail-a ovde?", questions)
+const OngoingQuiz = ({ setStageOfQuiz, setFinalResult, questions }) => {
   const [indexOfQuestion, setIndexOfQuestion] = useState(0);
   const [numberOfRightAnswers, setNumberOfRightAnswers] = useState(0);
   const [next, setNext] = useState(true);
   const [selectAnswer, setSelectAnswer] = useState(false);
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
 
   const handleNextClick = () => {
     setIndexOfQuestion((indexOfQuestion) => indexOfQuestion + 1);
@@ -16,6 +16,7 @@ const OngoingQuiz = ({ setStageOfQuiz, setFinalResult, questions}) => {
     setSelectAnswer(false);
     setShowCorrectAnswer(false);
     setShowModal(false);
+    setSelectedAnswerIndex(null);
   };
 
   const handleEndQuizClick = () => {
@@ -23,13 +24,13 @@ const OngoingQuiz = ({ setStageOfQuiz, setFinalResult, questions}) => {
     setFinalResult(`Final Score: ${numberOfRightAnswers}/${questions.length}`);
   };
 
-  const handleAnswerClick = (correct) => {
-    console.log(correct, 'ovo');
+  const handleAnswerClick = (correct, index) => {
     if (correct) {
       setNumberOfRightAnswers(
         (numberOfRightAnswers) => numberOfRightAnswers + 1
       );
     }
+    setSelectedAnswerIndex(index);
     setShowCorrectAnswer(true);
     setNext(false);
     setSelectAnswer(true);
@@ -59,9 +60,11 @@ const OngoingQuiz = ({ setStageOfQuiz, setFinalResult, questions}) => {
             key={index}
             disabled={selectAnswer}
             className={`w-full p-2 rounded-md text-bodyText bg-colorS2 cursor-pointer focus:outline-none ${
-              showCorrectAnswer && answer.isCorrect ? 'bg-green-500' : ''
-            }`}
-            onClick={() => handleAnswerClick(answer.isCorrect)}
+              index === selectedAnswerIndex
+                ? 'border-2 border-black rounded-xl'
+                : ''
+            } ${showCorrectAnswer && answer.isCorrect ? 'bg-green-500' : ''}`}
+            onClick={() => handleAnswerClick(answer.isCorrect, index)}
           >
             {answer.answer}
           </button>

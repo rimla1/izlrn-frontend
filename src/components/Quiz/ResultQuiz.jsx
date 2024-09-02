@@ -2,7 +2,6 @@ import React from 'react'
 
 const ResultQuiz = ({setStageOfQuiz ,finalResult, setQuestions}) => {
   const handleTryAgainClick = () => {
-    console.log("triggered!")
     setQuestions([])
     setStageOfQuiz("Start Quiz")
   }

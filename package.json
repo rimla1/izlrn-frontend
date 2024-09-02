@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "aws s3 sync dist/ s3://izlrn",
+    "build-and-deploy": "npm run build && npm run deploy && echo 'application has been deployed'"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.7",
