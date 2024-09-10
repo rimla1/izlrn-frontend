@@ -61,7 +61,7 @@ const OngoingQuiz = ({ setStageOfQuiz, setFinalResult, questions }) => {
             disabled={selectAnswer}
             className={`w-full p-2 rounded-md text-bodyText bg-colorS2 cursor-pointer focus:outline-none ${
               index === selectedAnswerIndex
-                ? 'border-2 border-black rounded-xl'
+                ? 'border-2 border-colorS4 rounded-3xl'
                 : ''
             } ${showCorrectAnswer && answer.isCorrect ? 'bg-green-500' : ''}`}
             onClick={() => handleAnswerClick(answer.isCorrect, index)}

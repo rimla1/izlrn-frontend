@@ -2,7 +2,7 @@ import React from 'react';
 
 const LoadingQuiz = () => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-colorS1 text-bodyText p-4">
+    <div className="flex flex-col items-center justify-center h-1/2 bg-colorS1 text-bodyText p-4">
       <h1 className="text-lg sm:text-2xl font-bold mb-4 text-colorS2 text-center">
         Crafting the quiz for your needs, please wait...
       </h1>

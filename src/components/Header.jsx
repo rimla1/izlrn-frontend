@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useHeader from '../hooks/Header/useHeader';
 import { languages } from '../utils/languages/languages';
+import { MdLightMode, MdDarkMode } from "react-icons/md";
 
 const Header = () => {
   const [isDarkModeOn, language, setTheme, selectChangeLanguageHandler] = useHeader();
@@ -23,11 +24,14 @@ const Header = () => {
         <Link to='/quiz' className='text-lg font-semibold'>
           {languages[language].header.quiz}
         </Link>
+        <Link to="/lesson" className='pl-3 text-lg font-semibold'>
+          Lesson
+        </Link>
       </div>
 
       <div className='hidden md:flex space-x-4'>
         <button onClick={setTheme} className='text-lg font-semibold'>
-          {isDarkModeOn ? 'Light' : 'Dark'}
+          {isDarkModeOn ? <MdLightMode /> : <MdDarkMode />}
         </button>
         <select
           onChange={(e) => selectChangeLanguageHandler(e.target.value)}
@@ -56,7 +60,7 @@ const Header = () => {
             onClick={setTheme}
             className='text-lg font-semibold w-full text-left py-2 px-4'
           >
-            {isDarkModeOn ? 'Light' : 'Dark'}
+            {isDarkModeOn ? <MdLightMode /> : <MdDarkMode />}
           </button>
           <select
             onChange={(e) => selectChangeLanguageHandler(e.target.value)}

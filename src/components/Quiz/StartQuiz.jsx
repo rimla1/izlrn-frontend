@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { languages } from '../../utils/languages/languages';
+import { rating } from '../../utils/constants/ratings';
 
 const StartQuiz = ({ setStageOfQuiz, setQuestions }) => {
   const language = useSelector((store) => store.language);
