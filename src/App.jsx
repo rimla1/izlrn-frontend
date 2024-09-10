@@ -3,6 +3,8 @@ import { createBrowserRouter, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home/Home';
 import Quiz from './components/Quiz/Quiz';
+import Lesson from './components/Lesson/Lesson';
+import Error from './components/Error';
 
 function App() {
 
@@ -24,13 +26,19 @@ export const appRouter = createBrowserRouter([
       {
         path: '/',
         element: <Home />,
+        errorElement: <Error />
       },
       {
         path: '/quiz',
         element: <Quiz />,
+        errorElement: <Error />
       },
-    ],
-    // errorElement: <Error />
+      {
+        path: '/lesson',
+        element: <Lesson />,
+        errorElement: <Error />
+      }
+    ]
   },
 ]);
 
