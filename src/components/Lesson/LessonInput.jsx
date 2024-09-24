@@ -1,29 +1,37 @@
-import React, { useRef} from 'react';
+import React, { useRef } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-const LessonInput = ({setStageOfQuiz, setQuestions}) => {
+const LessonInput = ({ setStageOfQuiz, setQuestions }) => {
   const lesson = useRef(null);
-  const language = useSelector((store) => store.language)
+  const language = useSelector((store) => store.language);
+  const {token} = useSelector((store) => store.token)
 
   const handleCreateQuizFromLessonSubmit = async (e) => {
     e.preventDefault();
-    setStageOfQuiz("Loading Quiz")
-    await createQuiz()
-    setStageOfQuiz("Ongoing Quiz")
+    setStageOfQuiz('Loading Quiz');
+    await createQuiz();
+    setStageOfQuiz('Ongoing Quiz');
   };
 
   const createQuiz = async () => {
     try {
-      const response = await axios.post("http://3.67.135.183:3000/lesson", {
-        lesson: lesson.current.value,
-        language: language
-      }, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
+      const response = await axios.post(
+        'http://3.67.135.183:3000/lesson',
+        {
+          lesson: lesson.current.value,
+          language: language,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        }
+      );
+
       const quiz = response.data;
-      setQuestions(quiz)
+      setQuestions(quiz);
     } catch (error) {
       console.error('Error fetching quiz:', error);
     }
@@ -31,7 +39,10 @@ const LessonInput = ({setStageOfQuiz, setQuestions}) => {
 
   return (
     <div className='text-bodyText flex w-1/2 justify-center items-center p-4'>
-      <form onSubmit={handleCreateQuizFromLessonSubmit} className='w-full max-w-lg bg-colorS2 shadow-lg rounded-lg p-6'>
+      <form
+        onSubmit={handleCreateQuizFromLessonSubmit}
+        className='w-full max-w-lg bg-colorS2 shadow-lg rounded-lg p-6'
+      >
         <div className='mb-4'>
           <label
             htmlFor='lessonContent'
@@ -61,4 +72,4 @@ const LessonInput = ({setStageOfQuiz, setQuestions}) => {
   );
 };
 
-export default LessonInput
+export default LessonInput;

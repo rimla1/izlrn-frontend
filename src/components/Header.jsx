@@ -2,14 +2,23 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useHeader from '../hooks/Header/useHeader';
 import { languages } from '../utils/languages/languages';
-import { MdLightMode, MdDarkMode } from "react-icons/md";
+import { MdLightMode, MdDarkMode } from 'react-icons/md';
+import { useDispatch, useSelector } from 'react-redux';
+import { clearToken } from '../redux/slices.js/authSlice';
 
 const Header = () => {
-  const [isDarkModeOn, language, setTheme, selectChangeLanguageHandler] = useHeader();
+  const [isDarkModeOn, language, setTheme, selectChangeLanguageHandler] =
+    useHeader();
   const [menuOpen, setMenuOpen] = useState(false);
+  const { token } = useSelector((store) => store.token);
+  const dispatch = useDispatch();
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  };
+
+  const handleLogout = () => {
+    dispatch(clearToken());
   };
 
   return (
@@ -20,14 +29,16 @@ const Header = () => {
         </Link>
       </div>
 
-      <div className='absolute left-1/2 transform -translate-x-1/2'>
-        <Link to='/quiz' className='text-lg font-semibold'>
-          {languages[language].header.quiz}
-        </Link>
-        <Link to="/lesson" className='pl-3 text-lg font-semibold'>
-          Lesson
-        </Link>
-      </div>
+      {token && (
+        <div className='absolute left-1/2 transform -translate-x-1/2'>
+          <Link to='/quiz' className='text-lg font-semibold'>
+            {languages[language].header.quiz}
+          </Link>
+          <Link to='/lesson' className='pl-3 text-lg font-semibold'>
+            Lesson
+          </Link>
+        </div>
+      )}
 
       <div className='hidden md:flex space-x-4'>
         <button onClick={setTheme} className='text-lg font-semibold'>
@@ -43,9 +54,15 @@ const Header = () => {
             </option>
           ))}
         </select>
-        <a href='/login' className='text-lg font-semibold'>
-          Signup
-        </a>
+        {token === null ? (
+          <Link to='/sign' className='text-lg font-semibold'>
+            Signup
+          </Link>
+        ) : (
+          <button onClick={handleLogout} className='text-lg font-semibold'>
+            Logout
+          </button>
+        )}
       </div>
 
       <div className='flex md:hidden'>
@@ -72,9 +89,13 @@ const Header = () => {
               </option>
             ))}
           </select>
-          <a href='/login' className='text-lg font-semibold w-full py-2 px-4'>
-            Signup
-          </a>
+          {token === null ? (
+            <Link to='/sign' className='text-lg font-semibold w-full py-2 px-4'>
+              Signup
+            </Link>
+          ) : (
+            <button onClick={handleLogout}>Logout</button>
+          )}
         </div>
       )}
     </header>
@@ -82,4 +103,3 @@ const Header = () => {
 };
 
 export default Header;
-

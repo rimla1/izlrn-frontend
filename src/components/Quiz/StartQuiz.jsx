@@ -1,16 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { languages } from '../../utils/languages/languages';
-import { rating } from '../../utils/constants/ratings';
 
 const StartQuiz = ({ setStageOfQuiz, setQuestions }) => {
   const language = useSelector((store) => store.language);
+  const { token } = useSelector((store) => store.token);
 
   const rating = useRef(null);
   const lesson = useRef(null);
   const subject = useRef(null);
   const age = useRef(null);
+  const [quizAttempts, setQuizAttempts] = useState('');
+
+  useEffect(() => {
+    getQuizAttempts();
+  }, []);
+
+  const getQuizAttempts = async () => {
+    const response = await fetch('http://3.67.135.183:3000/auth/quiz-attempts', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    const result = await response.json();
+    setQuizAttempts(result);
+  };
 
   const handleStartQuizSubmit = async (e) => {
     e.preventDefault();
@@ -21,18 +38,25 @@ const StartQuiz = ({ setStageOfQuiz, setQuestions }) => {
 
   const getQuiz = async () => {
     try {
-      const response = await axios.post("http://3.67.135.183:3000/", {
-        rating: rating.current.value,
-        lesson: lesson.current.value,
-        subject: subject.current.value,
-        age: age.current.value,
-        language: language
-      }, {
-        headers: { 'Content-Type': 'application/json' }
-      });
-      
+      const response = await axios.post(
+        'http://3.67.135.183:3000/',
+        {
+          rating: rating.current.value,
+          lesson: lesson.current.value,
+          subject: subject.current.value,
+          age: age.current.value,
+          language: language,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
       const quiz = response.data;
-      setQuestions(quiz)
+      setQuestions(quiz);
     } catch (error) {
       console.error('Error fetching quiz:', error);
     }
@@ -40,6 +64,7 @@ const StartQuiz = ({ setStageOfQuiz, setQuestions }) => {
 
   return (
     <div className='p-4'>
+      <h1>{quizAttempts}</h1>
       <form onSubmit={handleStartQuizSubmit}>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-center mb-4'>
           <input

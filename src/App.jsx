@@ -5,6 +5,7 @@ import Home from './components/Home/Home';
 import Quiz from './components/Quiz/Quiz';
 import Lesson from './components/Lesson/Lesson';
 import Error from './components/Error';
+import Sign from './components/Authentication/Sign';
 
 function App() {
 
@@ -36,6 +37,11 @@ export const appRouter = createBrowserRouter([
       {
         path: '/lesson',
         element: <Lesson />,
+        errorElement: <Error />
+      },
+      {
+        path: '/sign',
+        element: <Sign />,
         errorElement: <Error />
       }
     ]
